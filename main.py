@@ -5,7 +5,7 @@ team_path = 'teams.json'
 
 url = "https://nfl-football-api.p.rapidapi.com/nfl-team-statistics"
 
-querystring = {"year":"2024","id":"5"}
+querystring = {"year":"2024","id":"25"}
 
 headers = {
 	"x-rapidapi-key": "db828f1485msh78216986a709b58p1c92edjsn81bad99a5993",
@@ -237,9 +237,9 @@ class stats:
 		return main_stats
 
 database.write(response.json())
-time.sleep(1)
+# time.sleep(1)
 # stats.getgenstats()
-stats.getintstats()
+# stats.getintstats()
 # stats.getkickingstats()
 # stats.getmiscstats()
 # stats.getpassingstats()
