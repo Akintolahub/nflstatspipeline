@@ -1,6 +1,6 @@
 import requests,json,time
 
-sanfran_stats = '49erss_stats.json'
+sanfran_stats = '49ers_stats_2024.json'
 team_path = 'teams.json'
 
 url = "https://nfl-football-api.p.rapidapi.com/nfl-team-statistics"
@@ -243,8 +243,26 @@ class stats:
 		else:
 			print("Error: 'passing stats' is not a list.")
 		return main_stats
+	
+	def getdefensivestats():
+		if isinstance(defensive_stats, list):
+			print(database.read()['statistics']['splits']['categories'][4]['displayName'] + " stats")
+			# Loop through the stats list up to its length
+			for i in range(min(len(defensive_stats),50)):  # Safe limit to avoid IndexError
+				stat = defensive_stats[i]
+				stat_name = stat.get('name', 'Unknown')  # Use .get() to handle missing keys
+				stat_value = stat.get('displayValue', 'N/A')
+				stat_rank = stat.get('rankDisplayValue', 'N/A')
+				
+				main_stats = f"{stat_name}: {stat_value} Rank: {stat_rank}"
+				print(main_stats)
+				
+		else:
+			print("Error: 'passing stats' is not a list.")
+		return main_stats
 
 # time.sleep(1)
+stats.getdefensivestats()
 # stats.getgenstats()
 # stats.getintstats()
 # stats.getkickingstats()
