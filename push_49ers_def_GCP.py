@@ -1,4 +1,6 @@
 import requests, csv
+from google.cloud import storage
+
 
 url = "https://nfl-football-api.p.rapidapi.com/nfl-team-statistics"
 
@@ -175,3 +177,14 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
         writer.writerow({'Defensive Stat': stat, 'Rank': rank})
 
 print(f"Data fetched and written to '{csv_filename}'")
+
+# Upload the CSV file to GCS
+bucket_name = 'bkt-ranking-data'
+storage_client = storage.Client()
+bucket = storage_client.bucket(bucket_name)
+destination_blob_name = f'{csv_filename}'  # The path to store in GCS
+
+blob = bucket.blob(destination_blob_name)
+blob.upload_from_filename(csv_filename)
+
+print(f"File {csv_filename} uploaded to GCS bucket {bucket_name} as {destination_blob_name}")
