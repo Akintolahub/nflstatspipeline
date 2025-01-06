@@ -1,7 +1,7 @@
-import requests, csv
+import requests, csv, datetime
 from google.cloud import storage
 
-
+date = datetime.datetime.date(datetime.datetime.now())
 url = "https://nfl-football-api.p.rapidapi.com/nfl-team-statistics"
 
 querystring = {"year":"2024","id":"25"}
@@ -13,7 +13,7 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 data = response.json()
-csv_filename = '49ers_def_rankings_2024.csv'
+csv_filename = f'49ers_def_rankings_{date}.csv'
 field_names = ['Defensive Stat', 'Rank']
 
 # get relevant defensive stats
@@ -179,7 +179,7 @@ with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
 print(f"Data fetched and written to '{csv_filename}'")
 
 # Upload the CSV file to GCS
-bucket_name = 'bkt-ranking-data'
+bucket_name = '49er_data_bucket'
 storage_client = storage.Client()
 bucket = storage_client.bucket(bucket_name)
 destination_blob_name = f'{csv_filename}'  # The path to store in GCS
